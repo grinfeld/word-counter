@@ -22,14 +22,14 @@ public class Main {
         Set<String> vocabulary = EnDictionary.load();
         List<String> urls = EngadgetAddresses.load();
 
-        Map<String, Integer> wordCount = getStringIntegerMap(vocabulary, urls, new MyUrlReader());
+        Map<String, Integer> wordCount = countWords(vocabulary, urls, new MyUrlReader());
 
-        wordCount.forEach((key, value) -> System.out.print(key + " " + value));
+        wordCount.entrySet().stream().filter(e -> e.getValue() > 0).forEach(e -> System.out.println(e.getKey() + " " + e.getValue()));
         //TODO: Find the number of occurrences of each word in the vocabulary and print the result.
     }
 
-    static Map<String, Integer> getStringIntegerMap(Set<String> vocabulary,
-                                                    List<String> urls, MyReader mr) {
+    static Map<String, Integer> countWords(Set<String> vocabulary,
+                                           List<String> urls, MyReader mr) {
         Map<String, Integer> wordCount = new ConcurrentHashMap<>(vocabulary.stream()
                 .collect(Collectors.toMap(Function.identity(), s -> 0)));
 

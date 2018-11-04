@@ -5,14 +5,14 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MainFluentTest {
+class MainTest {
 
     @Test
-    void getStringIntegerMapExistsOnce() {
+    void countWordsOnce() {
 
         Set<String> voc = new HashSet<>(Arrays.asList("world", "life"));
 
-        Map<String, Integer> result = Main.getStringIntegerMap(voc, Arrays.asList("stam"),
+        Map<String, Integer> result = Main.countWords(voc, Arrays.asList("stam"),
                 path -> Stream.of("Hello world"));
 
         assertNotNull(result);
@@ -23,16 +23,17 @@ class MainFluentTest {
     }
 
     @Test
-    void getStringIntegerMapExistMany() {
+    void countWordsExistMany() {
 
         Set<String> voc = new HashSet<>(Arrays.asList("world", "life"));
 
-        Map<String, Integer> result = Main.getStringIntegerMap(voc, Arrays.asList("stam"),
-                path -> Stream.of("Hello world", "The big world", "The last world"));
+        Map<String, Integer> result = Main.countWords(voc, Arrays.asList("stam"),
+                path -> Stream.of("Hello world", "The big world", "The last world life"));
 
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals(new Integer(3), result.get("world"));
+        assertEquals(new Integer(1), result.get("life"));
         assertNull(result.get("hello"));
         assertNull(result.get("other"));
     }
